@@ -1,0 +1,21 @@
+
+<script>
+
+var xmlhttp;
+xmlhttp=new XMLHttpRequest();
+xmlhttp.onreadystatechange=function()
+{
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+  {
+    user=eval(xmlhttp.responseText) // eval the JSON data in the responseText
+                     // to convert the string to JavaScript
+          alert(user. name)
+		 alert(user. playlist[1])
+  }
+}
+xmlhttp.onerror=function(){
+ alert("Sorry, we could not load your user data, please refresh and try again.");
+}
+xmlhttp.open("GET","userData.js",true);
+xmlhttp.send();
+</script>
