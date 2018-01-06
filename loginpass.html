@@ -1,0 +1,13 @@
+<html><body><form method="post" >
+Username<input type="text" id="userid" name="userid"><br>
+Password:<input type="Password" id="pwd" name="pwd"><br>
+<input type="submit" id="submit" value="Login"></form>
+<script>function check(){let user = document.getElementById('userid');
+  let password = document.getElementById('pwd');
+  let submitForm = document.getElementById('submit');
+	  submitForm.addEventListener('click', function(event){
+  	event.preventDefault();
+  	if(user.value == "admin" && password.value == "admin") {
+  	    document.location.href = "http://192.168.1.153/";}
+else{alert("Incorrect Username or Password");}});};
+check();</script></body></html>
