@@ -1,0 +1,62 @@
+<html><meta name='viewport' content='width=device-width' charset='utf-8'>
+<body><iframe style="position:absolute; left: 190px; top: 26px;" name='theFrame1' width='150' height='80'></iframe><iframe style="position:absolute; left: 390px; top: 26px;" name='theFrame' width='150' height='80'></iframe>
+<br><br><br><br><br><br><br><font color="red">---Temperature---> Max:</font><span id="max" ></span><span id="data" ></span><br><br>
+<font color="#FFD700">-------------Lux---> Max:</font><span id="maxa" ></span><span id="dataa" ></span>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<br><div  id="monitor-chart"></div>
+<font color="#FFD700">-------------Lux---> Min:</font><span id="mina" ></span><span id="data1a"></span><br><br>
+<font color="red">---Temperature---> Min:</font><span id="min" ></span><span  id="data1" ></span><br>Nº V.Lidos<div id="vn"></div><div id="l"></div><meter  max="100" id="Bar"/>
+ <script> var x=0; var merda;var merda1;//<div id="n">res</div><br>
+ 	 function getData() {fetch("http://jotronica.myq-see.com:4053/json").then(function (response) {
+return response.json();}).then(function (data) {
+ // alert(data[0].Temp);  alert(data[0].Lux);//alert(data[1].address.geo.lat); //https://jsonplaceholder.typicode.com/users
+ data.forEach(function (d) { 
+  merda = parseInt(d.Temp);
+   merda1 = parseInt(d.Lux);
+  document.getElementById('n').innerHTML = merda; }); });}setInterval(getData, 2000);
+ //chart
+ google.charts.load('current', {
+  callback: function () { var chart = new google.visualization.LineChart(document.getElementById('monitor-chart'));
+    var options = {'title' : 'Temperature and Luminosity',
+      animation: {duration: 1000,easing: 'out',startup: true},
+      hAxis: {title: 'Time'},
+      vAxis: {title: 'Temperature and Luminosity'},colors: [ 'red', 'yellow'],height: 400,width: 700};
+	      var data = new google.visualization.DataTable();
+    data.addColumn('datetime', 'Time');
+    data.addColumn('number', 'Temp');  
+	data.addColumn('number', 'Lux');
+    var formatDate = new google.visualization.DateFormat({pattern: 'hh:mm:ss'});
+    var formatNumber = new google.visualization.NumberFormat({pattern: '#,##0.0'});
+    getTemp();     setInterval(getTemp, 10000);
+		    function getTemp() {	 var temperature = merda;var temperature1 = merda1; x++; document.getElementById("vn").innerHTML = x; document.getElementById('Bar').value = x;
+ window.open('http://chart.apis.google.com/chart?chs=150x80&chds=0,100&cht=gom&chd=t:'+temperature1+'&chl='+temperature1+' Lux', 'theFrame1');		
+ window.open('http://chart.apis.google.com/chart?chs=150x80&chds=0,50&cht=gom&chco=800080,0000FF,00FFFF,00FF00,FFFF00,FF8040,FF0000&chd=t:'+temperature+'&chl='+temperature+'°C', 'theFrame');
+	if (temperature1 < 15) {var newWindow = window.open("", "", "width=300,height=200");newWindow.document.write("<h1><mark>Alarme Luz  Baixa!</mark></h1>"+"Lux="+temperature1+"--->"+new Date().toLocaleString()); newWindow.moveTo(600, 140);
+   setTimeout(function() { newWindow.close();}, 7000);}
+	// var humidity = (Math.random() * (40 - 15) + 15);
+	var maior = (data.getColumnRange(1).max);
+	var menor = (data.getColumnRange(1).min);
+	var maiora = (data.getColumnRange(2).max);
+	var menora = (data.getColumnRange(2).min);
+	
+    document.getElementById("max").innerHTML = maior+"&nbsp;&nbsp;&nbsp;";//+"------->Data:"+new Date();
+    document.getElementById("min").innerHTML = menor+"&nbsp;&nbsp;&nbsp;";
+	
+	 document.getElementById("maxa").innerHTML = maiora+"&nbsp;&nbsp;&nbsp;";
+	 document.getElementById("mina").innerHTML = menora+"&nbsp;&nbsp;&nbsp;";
+	 
+if (temperature >= maior ) {document.getElementById("data").innerHTML = "Pico_max a:&nbsp;&nbsp;" + new Date().toLocaleString();} 
+if (temperature <= menor || menor == null) {document.getElementById("data1").innerHTML = "Pico_min a:&nbsp;&nbsp;" + new Date().toLocaleString();} 
+
+if (temperature1 >= maiora ) {document.getElementById("dataa").innerHTML = "Pico_max a:&nbsp;&nbsp;" + new Date().toLocaleString();} 
+if (temperature1 <= menora || menora == null) {document.getElementById("data1a").innerHTML = "Pico_min a:&nbsp;&nbsp;" + new Date().toLocaleString();} 
+
+      var timestamp = new Date(); drawChart(timestamp, temperature,temperature1); } // drawChart(timestamp, temperature, humidity);
+       function drawChart(timestamp, temperature,temperature1) {//  function drawChart(timestamp, temperature, humidity) {
+      data.addRow([timestamp, temperature,temperature1]);//  data.addRow([timestamp, temperature, humidity]);
+      formatDate.format(data, 0);
+      formatNumber.format(data, 1);
+     formatNumber.format(data, 2);
+	       chart.draw(data, options);    } },
+  packages:['corechart']} );
+  </script> </body></html>
