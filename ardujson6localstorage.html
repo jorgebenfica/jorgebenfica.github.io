@@ -1,0 +1,57 @@
+<html><body onload='loadDoc()' onUnload="window.alert('Goodbye!')">
+<mark>Ultimo Valor<div id="result"></div></mark>
+<svg height="200" width="200" id="_cir_progress_1">
+            <circle class="_cir_P_x" cx="100" cy="100" r="60" stroke="gray" stroke-width="20" fill="cyan"></circle>
+<circle class="_cir_P_y" cx="100" cy="100" r="60" stroke="blue" stroke-width="20"  stroke-dasharray="0,1000" fill="none"></circle>
+ <text x="50%" y="50%" text-anchor="middle" stroke="none" stroke-width="1px" dy=".3em" class="_cir_Per">0%</text> </svg>
+<div id="max" ></div><div id="max1" ></div><div id="max2" ></div>Temp:<div id="max3" ></div></div>Lux:<div id="max4" ></div>
+
+<div style="position:absolute; left: 230px; top: 200px;"><input type="range" value="0" max="120"
+ oninput="merda(this.value),document.getElementsByTagName('span')[0].innerHTML = (this.value);"></div>
+<div class="box" id= "m"><span >0</span></div>
+<style>.box{   background-color: orange;
+  position: absolute;
+  height: 3%;
+  width: 0%;
+  left: 20%;
+  top: 20%;}</style>
+
+<script>var lux;
+function merda(v) {   if (document.getElementById("m").className === "box") {document.getElementById("m").style.width = v;}}
+function loadDoc(){merda(lux);document.getElementsByTagName('span')[0].innerHTML = (lux);var request = new XMLHttpRequest();
+request.open('GET','http://jotronica.myq-see.com:4053/json');
+request.setRequestHeader('Accept', 'application/json');
+request.onreadystatechange = function () {
+  if (this.readyState === 4) {  var obj = JSON.parse(this.responseText);
+      	document.getElementById("max").innerHTML = this.status;
+	document.getElementById("max1").innerHTML = this.getAllResponseHeaders();
+	document.getElementById("max2").innerHTML = this.responseText;
+	 document.getElementById("max3").innerHTML = this.responseText[31]+this.responseText[32]+this.responseText[33]+this.responseText[34]+this.responseText[35];
+	  document.getElementById("max4").innerHTML =this.responseText[13]+this.responseText[14];
+lux = this.responseText[13]+this.responseText[14];
+ __showProgress(lux, '_cir_progress_1');	  }};
+request.send(); //var txt = "Alarme Luz  Baixa!";newWindow.document.write(txt.fontsize(10));
+if (lux < 10) {var newWindow = window.open("", "", "width=300,height=200");newWindow.document.write("<h1><mark>Alarme Luz  Baixa!</mark></h1>"+"Lux="+lux); newWindow.moveTo(200, 200);}
+ setTimeout('loadDoc()',5000); setTimeout(function() { newWindow.close();}, 4000);
+ localStorage.setItem("lastname", lux);
+    // Retrieve
+    document.getElementById("result").innerHTML = localStorage.getItem("lastname");
+ } 
+
+ 
+	
+	function __showProgress(_upto, _cir_progress_id) {    //Filter Percentage
+    _upto = (_upto > 100) ? 100 : ((_upto < 0) ? 0 : _upto );
+    var _progress = 0;
+    var _cir_progress = document.getElementById(_cir_progress_id).getElementsByClassName("_cir_P_y")[0];
+    var _text_percentage = document.getElementById(_cir_progress_id).getElementsByClassName("_cir_Per")[0];
+    var _input_percentage;
+    var _percentage;// r="60" stroke="anelext" stroke-width="20" fill="anelint"
+    var _sleep = setInterval(_animateCircle, 12);//stroke="anelvar" stroke-width="20"  stroke-dasharray=
+    function _animateCircle() {        _input_percentage = (_upto / 100) * 382;
+        _percentage = (_progress / 100) * 382;
+        _text_percentage.innerHTML = _progress + '%';
+        if (_percentage >= _input_percentage) { clearInterval(_sleep); }
+        else {_progress++;
+            _cir_progress.style.strokeDasharray = _percentage + ', 1000'; } }			}	
+</script></body></html>
