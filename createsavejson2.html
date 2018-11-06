@@ -36,7 +36,7 @@ var saveData = (function () {
 	document.writeln(JSON.stringify(data ));
 	document.writeln(data.s);
 	
-	 function merda() {	return fetch('https://arduino-98a90.firebaseio.com/TempLux.json').then(response =>   response.json()).then(k => {
+	 function merda() {	return fetch('http://jotronica.myq-see.com:4053/json').then(response =>   response.json()).then(k => {
    return k;   })}// document.getElementsByTagName("div")[0].innerHTML = (JSON.stringify(k));// document.write(JSON.stringify(k)); 
 
    merda().then(function(response) { //merda().then(response => alert(JSON.stringify(response))); 
