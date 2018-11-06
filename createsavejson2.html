@@ -1,0 +1,51 @@
+  <html> <div>json</div><br><div></div>
+  <script type="text/javascript">
+          var book = { 
+            title: "JavaScript",
+            authors: ["J" ], 
+            edition: 3, <!--  w ww  . ja  va  2 s .  com-->
+            Lux: 61,
+			Temp: 33  }; 
+        
+        var jsonText = JSON.stringify(book); 
+        document.writeln(jsonText); 
+		var jsonText1 = JSON.stringify(book, ["title", "edition"]); 
+        document.writeln(jsonText1);
+var jsonText2 = JSON.stringify(book, null, 4); 
+            document.writeln("<pre>"+jsonText2+"</pre>");
+		
+var myObj = JSON.parse(jsonText);
+document.writeln( myObj.Lux );//www  .j  a v a2 s  .  com
+///////////////////save json
+var saveData = (function () {
+    var a = document.createElement("a");//converts a JSON object into a string, stores it inside a Blob object,
+    document.body.appendChild(a);
+   a.style = "display: none"; //	and creates an invisible link that allows you to download a json file.
+    return function (data, fileName) {
+        var json = JSON.stringify(data),
+            blob = new Blob([json], {type: "octet/stream"}),
+            url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = fileName;
+        a.click();//output {"x":22,"s":"hello, world","d":"2018-11-05T19:17:14.575Z"}
+        window.URL.revokeObjectURL(url); };}());
+		var z=22;
+	var data = { Temp: z, s: "hello, world", d: new Date() },
+    fileName = "my-download.json";
+	 	document.write('<pre>');
+	document.writeln(JSON.stringify(data ));
+	document.writeln(data.s);
+	
+	 function merda() {	return fetch('https://arduino-98a90.firebaseio.com/TempLux.json').then(response =>   response.json()).then(k => {
+   return k;   })}// document.getElementsByTagName("div")[0].innerHTML = (JSON.stringify(k));// document.write(JSON.stringify(k)); 
+
+   merda().then(function(response) { //merda().then(response => alert(JSON.stringify(response))); 
+  //document.writeln(JSON.stringify(response));
+   document.getElementsByTagName("div")[0].innerHTML = (JSON.stringify(response)); 
+ document.getElementsByTagName("div")[1].innerHTML = response.Temp;     
+   saveData(response, fileName);});
+  </script></html>
+
+
+
+	
