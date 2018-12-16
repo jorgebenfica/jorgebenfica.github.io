@@ -1,0 +1,10 @@
+<script src="https://www.gstatic.com/firebasejs/3.3.2/firebase.js"></script>
+<script>var config = {apiKey: "AIzaSyChFR4LqPTXa6-QOhzuFSxignhLnGREXpc",
+    authDomain: "arduino-98a90.firebaseapp.com",
+    databaseURL: "https://arduino-98a90.firebaseio.com",
+    projectId: "arduino-98a90",                           
+    storageBucket: "arduino-98a90.appspot.com",          
+    messagingSenderId: "233766659190"  };
+ firebase.initializeApp(config);
+var adaRef = firebase.database().ref("logDHT");//logDHT//TempLux
+adaRef.remove().then(function(){console.log("Remove succeeded.")}).catch(function(err){console.log("Remove failed: " + err.message)});</script>
